@@ -2,12 +2,12 @@ package nour.movie_review_api.controllers;
 
 import jakarta.validation.Valid;
 import nour.movie_review_api.entities.Movie;
-import nour.movie_review_api.entities.MovieResponseDTO;
-import nour.movie_review_api.repository.DirectorRepository;
+import nour.movie_review_api.Dto.MovieResponseDTO;
+import nour.movie_review_api.entities.Review;
 import nour.movie_review_api.repository.MoviesRepository;
+import nour.movie_review_api.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +15,13 @@ import java.util.Optional;
 
 @RestController("/movie")
 public class MoviesController {
-    MoviesRepository moviesDao;
+    private MoviesRepository moviesDao;
+    private ReviewRepository reviewDao;
 
     @Autowired
-    public MoviesController (MoviesRepository moviess){
-        moviesDao = moviess;
-
+    public MoviesController (MoviesRepository mv, ReviewRepository rv){
+        moviesDao = mv;
+        reviewDao = rv;
     }
 
 @GetMapping("/movie")
@@ -41,6 +42,15 @@ public ResponseEntity<?> getAllMovies() {
     if (movie.isEmpty()){return ResponseEntity.badRequest().body("Movie with Id : "+movieId.get() +" Not found");} // no movie with this Id exception
     return ResponseEntity.accepted().body(new MovieResponseDTO(movie.get(),"Movie sucessfully Quered")); // good request :)
 }
+
+@GetMapping("/movie/popular")
+public ResponseEntity<?> getHighestRatedMovies () {
+        List<Movie> highestRatedMovies = moviesDao.highestRatedMovies();
+        if (highestRatedMovies.isEmpty()){return ResponseEntity.badRequest().body("No movies Found");}
+        return ResponseEntity.accepted().body(highestRatedMovies);
+}
+
+
 @PostMapping("/movie")
     public ResponseEntity<?> addMovie (@RequestBody Optional<Movie> newmovie){
         try {
@@ -83,4 +93,5 @@ public ResponseEntity<?> updateMovie (@RequestBody @Valid Movie updatemovie){
     moviesDao.deleteById(movieId.get());
     return ResponseEntity.accepted().body(new MovieResponseDTO(movie.get(),"Movie sucessfully Deleted"));
 }
+
 }

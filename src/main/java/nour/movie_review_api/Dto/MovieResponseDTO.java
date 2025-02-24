@@ -1,4 +1,6 @@
-package nour.movie_review_api.entities;
+package nour.movie_review_api.Dto;
+
+import nour.movie_review_api.entities.Movie;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,7 +13,7 @@ public class MovieResponseDTO {
         private String genre;
         private LocalDate releaseDate;
         private BigDecimal averageRating;
-        private String extraInfo;  // 👈 Extra row added
+        private String extraInfo;
 
         public MovieResponseDTO(Movie movie, String extraInfo) {
             this.id = movie.getId();
