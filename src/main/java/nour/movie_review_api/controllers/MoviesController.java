@@ -5,6 +5,7 @@ import nour.movie_review_api.entities.Movie;
 import nour.movie_review_api.services.MoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
@@ -43,7 +44,8 @@ public class MoviesController {
     }
 
     @PostMapping("/movie")
-    public ResponseEntity<?> addMovie(@RequestBody Optional<Movie> newMovie) {
+    public ResponseEntity<?> addMovie(@RequestBody @Valid Optional<Movie> newMovie, BindingResult bindingResult) {
+        System.out.println(bindingResult.getAllErrors());
         return moviesService.addMovie(newMovie);
     }
 

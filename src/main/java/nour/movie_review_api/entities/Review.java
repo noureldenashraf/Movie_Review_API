@@ -3,10 +3,15 @@ package nour.movie_review_api.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+import nour.movie_review_api.validation.NoExplictWords;
 
 import java.math.BigDecimal;
 
+@ToString
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -30,6 +35,7 @@ public class Review {
     @Column(name = "review_rating", nullable = false)
     private Double reviewRating;
 
+    @NoExplictWords
     @Lob
     @Column(name = "review_text")
     private String reviewText;
@@ -39,19 +45,5 @@ public class Review {
         this.user_id = user_id;
         this.reviewRating = reviewRating;
         this.reviewText = reviewText;
-    }
-
-    public Review() {
-    }
-
-    @Override
-    public String toString() {
-        return "Review{" +
-                "id=" + id +
-                ", movie_id=" + movie_id +
-                ", user_id=" + user_id +
-                ", reviewRating='" + reviewRating + '\'' +
-                ", reviewText='" + reviewText + '\'' +
-                '}';
     }
 }

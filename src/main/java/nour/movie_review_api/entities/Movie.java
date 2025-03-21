@@ -2,10 +2,15 @@ package nour.movie_review_api.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@ToString
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -44,17 +49,11 @@ public class Movie {
         this.releaseDate = releaseDate;
         this.averageRating = averageRating;
     }
-    public Movie () {}
 
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", director_id=" + director_id +
-                ", genre='" + genre + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", averageRating=" + averageRating +
-                '}';
+    public Movie(Integer id,String title,String genre, BigDecimal averageRating) {
+        this.id = id;
+        this.title = title;
+        this.genre = genre;
+        this.averageRating = averageRating;
     }
 }
